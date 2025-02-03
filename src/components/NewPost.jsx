@@ -1,22 +1,37 @@
+import { useState } from "react";
 import classes from "./NewPost.module.css";
 
-function NewPost({ onBodyChange, onAuthorChange, onCancel }) {
-  // let enteredBody = "";
-  // const [enteredBody, setEnteredBody] = useState("");
+function NewPost({ onCancel }) {
+  const [enteredBody, setEnteredBody] = useState("");
+  const [enteredAuthor, setEnteredAuthor] = useState("");
 
-  // function changeBodyHandler(e) {
-  //   setEnteredBody(e.target.value);
-  // }
+  function bodyChangeHandler(e) {
+    setEnteredBody(e.target.value);
+  }
+
+  function authorChangeHandler(e) {
+    setEnteredAuthor(e.target.value);
+  }
+
+  function submitHandler(e) {
+    e.preventDefault();
+    const postData = {
+      body: enteredBody,
+      author: enteredAuthor,
+    };
+    console.log(postData);
+    onCancel();
+  }
 
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={submitHandler}>
       <p>
         <label htmlFor="body">Text</label>
-        <textarea id="body" required rows={3} onChange={onBodyChange} />
+        <textarea id="body" required rows={3} onChange={bodyChangeHandler} />
       </p>
       <p>
         <label htmlFor="name">Your name</label>
-        <input type="text" id="name" required onChange={onAuthorChange} />
+        <input type="text" id="name" required onChange={authorChangeHandler} />
       </p>
       <p className={classes.actions}>
         {/* button의 default type = submit으로, 해당 버튼에 의해 submit되는 기본동작을 막고 싶다면 type속성을 button으로 설정해라. */}

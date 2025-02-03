@@ -1,8 +1,8 @@
-function Post() {
+function Post(props) {
   return (
     <div>
-      <p>Maxi</p>
-      <p>React.js is awesome!</p>
+      <p>{props.author}</p>
+      <p>{props.body}</p>
     </div>
   );
 }

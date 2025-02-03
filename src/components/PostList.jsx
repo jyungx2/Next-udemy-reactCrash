@@ -2,12 +2,55 @@ import NewPost from "./NewPost";
 import Post from "./Post";
 import classes from "./PostList.module.css";
 import Modal from "./Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function PostList({ isPosting, onStopPosting }) {
+  // 🚨 This will cause infinite loop! (fetch + then 버전)
+  // fetch("http://localhost:8080/posts")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setPosts(data.posts);
+  //   });
+
+  // 🚨 이렇게 하면 무한 루프 발생! (axios + try-catch block 버전)
+  // async function fetchPosts() {
+  //   try {
+  //     setIsLoading(true);
+  //     setError(null);
+  //     const response = await axios.get("http://localhost:8080/posts");
+  //     setPosts(response.data.posts); // 여기서 상태 업데이트
+  //   } catch (error) {
+  //     setError(error.response?.data?.message || "실패");
+  //   }
+  // }
+
+  // fetchPosts(); // 이 호출이 매 렌더링마다 실행됨
+  // 🌟 then 체이닝 방식은 코드가 있는 위치에서 바로 실행되지만, async/await 방식은 함수로 감싸져 있어서 실제로 fetchPosts()를 호출해야만 실행된다.
+
+  // 🌟결론🌟
+  // 1. then 체이닝 방식은 그 자체로 무한 루프를 발생시킴
+  // 2. async/await 방식은 fetchPosts()를 직접 호출할 때만 무한 루프가 발생
+
   const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    async function fetchPosts() {
+      const res = await fetch("http://localhost:8080/posts");
+      const resData = await res.json();
+      setPosts(resData.posts);
+    }
+
+    fetchPosts();
+  }, []);
+
   function addPostHandler(postData) {
+    fetch("http://localhost:8080/posts", {
+      method: "POST",
+      body: JSON.stringify(postData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     // ❌  Not ideal approach:
     // setPosts([postData, ...posts]);
     // Because there's a rule which you should use (arrow) function to update state with previous state value(=existingPosts) in React.

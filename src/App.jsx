@@ -8,7 +8,6 @@ function App() {
     <main>
       <Post author="jiyoung" body="REACT IS FUN!" />
       <Post author="suzy" body="JS IS FUN!" />
-      <Post />
     </main>
   );
 }

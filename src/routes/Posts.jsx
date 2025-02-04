@@ -20,3 +20,12 @@ export default Posts;
 // Syntax of havingg HTML in Javascript is called 'JSX'.
 // All about React is components.
 // Functions that returns JSX code are React components.
+
+// loader 함수는 보통 Route 컴포넌트 파일에 작성(여기서 Posts 컴포넌트)
+// 함수 이름은 마음대로 지을 수 있지만, common convention으로 loader로 지정.
+// 아래 loader는 데이터 fetching logic을 포함하여, useEffect대신에 사용할 수 있는 더 효율적인 방식!
+export async function loader() {
+  const res = await fetch("http://localhost:8080/posts");
+  const resData = await res.json();
+  return resData.posts;
+}

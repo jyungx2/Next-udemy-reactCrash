@@ -32,12 +32,18 @@ function PostList({ isPosting, onStopPosting }) {
   // 2. async/await 방식은 fetchPosts()를 직접 호출할 때만 무한 루프가 발생
 
   const [posts, setPosts] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     async function fetchPosts() {
+      setIsFetching(true);
       const res = await fetch("http://localhost:8080/posts");
       const resData = await res.json();
+      // Error handling
+      // if (!response.ok) {
+      // }
       setPosts(resData.posts);
+      setIsFetching(false);
     }
 
     fetchPosts();
@@ -82,7 +88,7 @@ function PostList({ isPosting, onStopPosting }) {
         </Modal>
       )}
 
-      {posts.length > 0 && (
+      {!isFetching && posts.length > 0 && (
         <ul className={classes.posts}>
           {/* If you map an array to an array of JSX elements, you should add the special key prop to the JSX element! */}
           {posts.map((post) => (
@@ -90,10 +96,15 @@ function PostList({ isPosting, onStopPosting }) {
           ))}
         </ul>
       )}
-      {posts.length === 0 && (
+      {!isFetching && posts.length === 0 && (
         <div style={{ textAlign: "center", color: "white" }}>
           <h2>There are no posts yet.</h2>
           <p>Start adding some!</p>
+        </div>
+      )}
+      {isFetching && (
+        <div style={{ color: "white", textAlign: "center" }}>
+          <p>Loading posts...</p>
         </div>
       )}
     </>

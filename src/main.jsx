@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // ✅ loader as ~ : "Alias" (더 많은 Loader를 설치해야 할 수도 있으므로)
 import Posts, { loader as postsLoader } from "./routes/Posts";
 import "./index.css";
-import NewPost from "./routes/NewPost";
+import NewPost, { action as newPostAction } from "./routes/NewPost";
 import RootLayout from "./routes/RootLayout";
 
 /* 
@@ -25,7 +25,9 @@ const router = createBrowserRouter([
         path: "/",
         element: <Posts />,
         loader: postsLoader, // this loader is executed before the element is rendered. (=> As long as the loader executes, this route element isn't rendered.)
-        children: [{ path: "/create-post", element: <NewPost /> }],
+        children: [
+          { path: "/create-post", element: <NewPost />, action: newPostAction },
+        ],
       },
     ],
   },

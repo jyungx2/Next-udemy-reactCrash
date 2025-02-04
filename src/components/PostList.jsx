@@ -30,22 +30,6 @@ function PostList() {
   }, []);
   */
 
-  function addPostHandler(postData) {
-    fetch("http://localhost:8080/posts", {
-      method: "POST",
-      body: JSON.stringify(postData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    // ❌  Not ideal approach:
-    // setPosts([postData, ...posts]);
-    // Because there's a rule which you should use (arrow) function to update state with previous state value(=existingPosts) in React.
-
-    // ✅ 권장하는 방법 - 함수형 업데이트 사용:
-    setPosts((existingPosts) => [postData, ...existingPosts]);
-  }
-
   return (
     <>
       {posts.length > 0 && (

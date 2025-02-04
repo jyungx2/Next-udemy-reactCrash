@@ -7,6 +7,7 @@ import Posts, { loader as postsLoader } from "./routes/Posts";
 import "./index.css";
 import NewPost, { action as newPostAction } from "./routes/NewPost";
 import RootLayout from "./routes/RootLayout";
+import PostDetails, { loader as postDetailsLoader } from "./routes/PostDetails";
 
 /* 
 React Router v6.4+ Data Loading
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
         loader: postsLoader, // this loader is executed before the element is rendered. (=> As long as the loader executes, this route element isn't rendered.)
         children: [
           { path: "/create-post", element: <NewPost />, action: newPostAction },
+          {
+            path: "/:postId",
+            element: <PostDetails />,
+            loader: postDetailsLoader,
+          },
         ],
       },
     ],

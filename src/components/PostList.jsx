@@ -36,7 +36,12 @@ function PostList() {
         <ul className={classes.posts}>
           {/* If you map an array to an array of JSX elements, you should add the special key prop to the JSX element! */}
           {posts.map((post) => (
-            <Post key={post.body} author={post.author} body={post.body} />
+            <Post
+              key={post.id}
+              id={post.id}
+              author={post.author}
+              body={post.body}
+            />
           ))}
         </ul>
       )}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import classes from "./NewPost.module.css";
 import Modal from "../components/Modal";
+import { Link } from "react-router-dom";
 
 function NewPost({ onCancel, onAddPost }) {
   const [enteredBody, setEnteredBody] = useState("");
@@ -43,9 +44,9 @@ function NewPost({ onCancel, onAddPost }) {
         </p>
         <p className={classes.actions}>
           {/* button의 default type = submit으로, 해당 버튼에 의해 submit되는 기본동작을 막고 싶다면 type속성을 button으로 설정해라. */}
-          <button type="button" onClick={onCancel}>
+          <Link to=".." type="button">
             Cancel
-          </button>
+          </Link>
           <button>Submit</button>
         </p>
       </form>
